@@ -17,5 +17,5 @@ struct Person: Codable {
     var about: String
     var registered: Date
     var tags: [String]
-    
+    var friends: [Friend]
 }
