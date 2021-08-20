@@ -15,6 +15,8 @@
 		85D6153026CED22200B7CE62 /* Friend.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D6152F26CED22200B7CE62 /* Friend.swift */; };
 		85D6153326CED29000B7CE62 /* FriendsVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D6153226CED29000B7CE62 /* FriendsVM.swift */; };
 		85D6153726CF666A00B7CE62 /* UserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D6153626CF666A00B7CE62 /* UserView.swift */; };
+		85D6153A26CF745200B7CE62 /* FriendlyFacesDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 85D6153826CF745200B7CE62 /* FriendlyFacesDataModel.xcdatamodeld */; };
+		85D6153C26CF7A5300B7CE62 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D6153B26CF7A5300B7CE62 /* CoreDataManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +30,8 @@
 		85D6152F26CED22200B7CE62 /* Friend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Friend.swift; sourceTree = "<group>"; };
 		85D6153226CED29000B7CE62 /* FriendsVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsVM.swift; sourceTree = "<group>"; };
 		85D6153626CF666A00B7CE62 /* UserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserView.swift; sourceTree = "<group>"; };
+		85D6153926CF745200B7CE62 /* FriendlyFacesDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = FriendlyFacesDataModel.xcdatamodel; sourceTree = "<group>"; };
+		85D6153B26CF7A5300B7CE62 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,6 +64,7 @@
 		85D6151B26CED0A600B7CE62 /* FriendlyFaces */ = {
 			isa = PBXGroup;
 			children = (
+				85D6153D26CF7A5A00B7CE62 /* Manager */,
 				85D6153526CF663E00B7CE62 /* Views */,
 				85D6153126CED27B00B7CE62 /* ViewModel */,
 				85D6152C26CED17B00B7CE62 /* Models */,
@@ -67,6 +72,7 @@
 				85D6152026CED0AA00B7CE62 /* Assets.xcassets */,
 				85D6152526CED0AA00B7CE62 /* Info.plist */,
 				85D6152226CED0AA00B7CE62 /* Preview Content */,
+				85D6153826CF745200B7CE62 /* FriendlyFacesDataModel.xcdatamodeld */,
 			);
 			path = FriendlyFaces;
 			sourceTree = "<group>";
@@ -103,6 +109,14 @@
 				85D6153626CF666A00B7CE62 /* UserView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		85D6153D26CF7A5A00B7CE62 /* Manager */ = {
+			isa = PBXGroup;
+			children = (
+				85D6153B26CF7A5300B7CE62 /* CoreDataManager.swift */,
+			);
+			path = Manager;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -177,8 +191,10 @@
 				85D6152E26CED18900B7CE62 /* User.swift in Sources */,
 				85D6153726CF666A00B7CE62 /* UserView.swift in Sources */,
 				85D6151F26CED0A600B7CE62 /* MainView.swift in Sources */,
+				85D6153A26CF745200B7CE62 /* FriendlyFacesDataModel.xcdatamodeld in Sources */,
 				85D6151D26CED0A600B7CE62 /* FriendlyFacesApp.swift in Sources */,
 				85D6153026CED22200B7CE62 /* Friend.swift in Sources */,
+				85D6153C26CF7A5300B7CE62 /* CoreDataManager.swift in Sources */,
 				85D6153326CED29000B7CE62 /* FriendsVM.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -368,6 +384,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		85D6153826CF745200B7CE62 /* FriendlyFacesDataModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				85D6153926CF745200B7CE62 /* FriendlyFacesDataModel.xcdatamodel */,
+			);
+			currentVersion = 85D6153926CF745200B7CE62 /* FriendlyFacesDataModel.xcdatamodel */;
+			path = FriendlyFacesDataModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 85D6151126CED0A600B7CE62 /* Project object */;
 }
