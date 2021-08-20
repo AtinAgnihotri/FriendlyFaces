@@ -9,5 +9,5 @@ import Foundation
 
 struct Friend: Codable {
     var id: UUID
-    var name: UUID
+    var name: String
 }

@@ -7,15 +7,21 @@
 
 import Foundation
 
-struct Person: Codable {
+struct User: Codable {
+    
     var id: UUID
     var isActive: Bool
+    var name: String
     var age: Int
     var company: String
     var email: String
     var address: String
     var about: String
-    var registered: Date
+    var registered: String
     var tags: [String]
     var friends: [Friend]
+    var registrationData: Date {
+        // todo write proper conversion
+        Date(timeIntervalSinceReferenceDate: TimeInterval(registered) ?? TimeInterval(0))
+    }
 }

@@ -8,9 +8,15 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    @ObservedObject var friendsVM = FriendsVM()
+    
     var body: some View {
-        Text("Hello, world!")
-            .padding()
+        List {
+            ForEach(friendsVM.people, id: \.id) { person in
+                Text("\(person.name)")
+            }
+        }.navigationTitle("Hello")
     }
 }
 
