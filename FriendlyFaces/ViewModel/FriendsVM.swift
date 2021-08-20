@@ -8,15 +8,15 @@
 import Foundation
 
 class FriendsVM: ObservableObject {
-    @Published var people = [User]()
+    @Published var users = [User]()
     
     init() {
-        print("Start Loading people: \(people)")
-        loadPeople()
-        print("Loaded people: \(people)")
+        if users.isEmpty {
+            loadPeopleFromDB()
+        }
     }
     
-    func loadPeople() {
+    func loadPeopleFromDB() {
         // Can force unwrap it as this is a known url
         let url = URL(string: "https://www.hackingwithswift.com/samples/friendface.json")!
         let request = URLRequest(url: url)
@@ -35,7 +35,7 @@ class FriendsVM: ObservableObject {
                 let decoder = JSONDecoder()
                 if let decodedData = try? decoder.decode([User].self, from: data) {
                     print("reach4")
-                    self?.people += decodedData
+                    self?.users += decodedData
                 }
             }
         }.resume()
@@ -47,7 +47,21 @@ class FriendsVM: ObservableObject {
     
     func deleteFriends(at offsets: IndexSet) {
         offsets.forEach { index in
-            people.remove(at: index)
+            users.remove(at: index)
         }
+    }
+    
+    func getUser(with id: UUID) -> User?{
+        users.first(where: { $0.id == id})
+    }
+    
+    func getFriendlyUsers(for friends: [Friend]) -> [User] {
+        var friendUsers = [User]()
+        for friend in friends {
+            if let friendUser = users.first(where: { $0.id == friend.id } ) {
+                friendUsers.append(friendUser)
+            }
+        }
+        return friendUsers
     }
 }

@@ -28,27 +28,27 @@ struct UserListItemView: View {
     }
 }
 
-struct ContentView: View {
+struct MainView: View {
     
     @ObservedObject var friendsVM = FriendsVM()
     
     var body: some View {
         NavigationView {
             List {
-                ForEach(friendsVM.people, id: \.id) { person in
-                    NavigationLink(destination: Text(person.name)) {
-                        UserListItemView(name: person.name, tags: person.allTags)
+                ForEach(friendsVM.users, id: \.id) { user in
+                    NavigationLink(destination: UserView(for: user, with: friendsVM)) {
+                        UserListItemView(name: user.name, tags: user.allTags)
                     }
                 }.onDelete(perform: { offsets in
                     friendsVM.deleteFriends(at: offsets)
                 })
-            }.navigationTitle("Hello")
+            }.navigationTitle("Friendly Faces")
         }
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        MainView()
     }
 }
