@@ -22,6 +22,15 @@ struct User: Codable {
     var friends: [Friend]
     var registrationData: Date {
         // todo write proper conversion
-        Date(timeIntervalSinceReferenceDate: TimeInterval(registered) ?? TimeInterval(0))
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: "en_US_POSIX") // set locale to reliable US_POSIX
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+        let date = dateFormatter.date(from:registered)!
+        let calendar = Calendar.current
+        let components = calendar.dateComponents([.year, .month, .day, .hour], from: date)
+        return calendar.date(from:components) ?? Date(timeIntervalSinceNow: TimeInterval(0))
+    }
+    var allTags: String {
+        tags.joined(separator: ", ")
     }
 }

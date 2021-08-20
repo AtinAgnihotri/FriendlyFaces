@@ -7,16 +7,43 @@
 
 import SwiftUI
 
+struct UserListItemView: View {
+    @State var name: String
+    @State var tags: String
+    
+    var body: some View {
+        VStack {
+            HStack {
+                Text(name)
+                    .font(.headline)
+                Spacer()
+            }
+            HStack {
+                Text(tags)
+                    .lineLimit(1)
+                    .font(.subheadline)
+                Spacer()
+            }
+        }
+    }
+}
+
 struct ContentView: View {
     
     @ObservedObject var friendsVM = FriendsVM()
     
     var body: some View {
-        List {
-            ForEach(friendsVM.people, id: \.id) { person in
-                Text("\(person.name)")
-            }
-        }.navigationTitle("Hello")
+        NavigationView {
+            List {
+                ForEach(friendsVM.people, id: \.id) { person in
+                    NavigationLink(destination: Text(person.name)) {
+                        UserListItemView(name: person.name, tags: person.allTags)
+                    }
+                }.onDelete(perform: { offsets in
+                    friendsVM.deleteFriends(at: offsets)
+                })
+            }.navigationTitle("Hello")
+        }
     }
 }
 

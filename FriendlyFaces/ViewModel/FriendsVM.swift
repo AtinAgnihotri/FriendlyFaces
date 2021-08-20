@@ -44,4 +44,10 @@ class FriendsVM: ObservableObject {
     func showError(_ error: Error?) {
         // todo
     }
+    
+    func deleteFriends(at offsets: IndexSet) {
+        offsets.forEach { index in
+            people.remove(at: index)
+        }
+    }
 }
