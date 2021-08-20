@@ -85,6 +85,7 @@ class FriendsVM: ObservableObject {
             self?.users.forEach { user in
                 self?.coreDataManager.saveToCDIfUnavailable(user: user)
             }
+            print("Saved fetched users to local storage")
         }
     }
     

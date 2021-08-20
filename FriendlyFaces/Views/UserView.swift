@@ -32,24 +32,21 @@ struct UserView: View {
         friendsVM.getFriendlyUsers(for: user.friends)
     }
     
+    var aboutText: String {
+        user.about + "\n" + "Tags: " + user.allTags
+    }
+    
     var body: some View {
         Form {
-            Section(header: Text("Details")) {
-                HStack {
-                    Text(activeStatus)
-                    Spacer()
-                    activeStatusSymbol
-                }
-                Text("Since: \(user.registrationData)")
-                Text("Age: \(user.age)")
-                Text("Company: \(user.company)")
-                Text("Email: \(user.email)") //address
-                Text("Email: \(user.address)")
-                
+            
+            HStack {
+                Text(activeStatus)
+                Spacer()
+                activeStatusSymbol
             }
             
             Section(header: Text("About")) {
-                Text(user.about)
+                Text(aboutText)
             }
             
             Section(header: Text("Friends")) {
@@ -62,19 +59,16 @@ struct UserView: View {
                 }
             }
             
+            Section(header: Text("Details")) {
+                Text("Since: \(user.registrationData)")
+                Text("Age: \(user.age)")
+                Text("Company: \(user.company)")
+                Text("Email: \(user.email)") //address
+                Text("Address: \(user.address)")
+                
+            }
+            
         }.navigationTitle(user.name)
-//        ScrollView {
-//            Form {
-//                Text("\(user.name)")
-//            }
-////            VStack {
-////                Text("\(user.name)")
-////                Form {
-////
-////                    Text("\(activeStatus)")
-////                }
-////            }
-//        }
     }
 }
 

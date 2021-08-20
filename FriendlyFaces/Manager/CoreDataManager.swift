@@ -15,7 +15,6 @@ class CoreDataManager {
     var context: NSManagedObjectContext {
         persistentContainer.viewContext
     }
-    var userCount = 0
     
     private init() {
         persistentContainer = NSPersistentContainer(name: "FriendlyFacesDataModel")
@@ -24,77 +23,38 @@ class CoreDataManager {
                 fatalError("Core Data Store Failed with error: \(error.localizedDescription)")
             }
         }
+        context.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
     }
     
     func saveToCDIfUnavailable(user: User) {
         let userToSave = getCDUser(from: user)
-//        let setOfTags = getSetOfTags(tags: user.tags)
-//        let setOfFriends = getSetOfFriends(friends: user.friends)
-        
-//        let cdUser = CDUser(context: context)
-//        cdUser.id = user.id
-//        cdUser.isActive = user.isActive
-//        cdUser.name = user.name
-//        cdUser.about = user.about
-//        cdUser.address = user.address
-//        cdUser.company = user.company
-//        cdUser.age = Int16(user.age)
-//        cdUser.email = user.email
-//        cdUser.registered = user.registered
-//        cdUser.addToTags(<#T##value: CDTag##CDTag#>)
-//        cdUser.tags = NSSet()
-//        cdUser.friends = NSSet()
-        
         if context.hasChanges {
-            print("Saving user: \(userToSave)")
-            userCount += 1
             try? context.save()
         }
-        
-//        user.tags.forEach { tag in
-//            let cdTag = CDTag(context: context)
-//            cdTag.tag = tag
-//            userToSave.addToTags(cdTag)
-//
-//            if context.hasChanges {
-//                try? context.save()
-//            }
-//        }
-        
-        
-        print("\n\n\nSAVED \(userCount) USERS\n\n\n")
     }
     
     func getSetOfFriends(friends: [Friend]) -> NSSet {
         var set = NSSet()
-        var friendCount = 0
         for friend in friends {
             let cdFriend = getCDFriend(from: friend)
             set = set.adding(cdFriend) as NSSet
             if context.hasChanges {
-                print("Saving friend: \(cdFriend)")
-                friendCount += 1
                 try? context.save()
             }
         }
-        print("\n\n\nSAVED \(friendCount) FRIENDS\n\n\n")
         return set
     }
     
     func getSetOfTags(tags: [String]) -> NSSet {
         var set = NSSet()
-        var tagCounts = 0
         for tag in tags {
             let cdTag = CDTag(context: context)
             cdTag.tag = tag
             set = set.adding(cdTag) as NSSet
             if context.hasChanges {
-                print("Saving tag: \(cdTag)")
-                tagCounts += 1
                 try? context.save()
             }
         }
-        print("\n\n\nSAVED \(tagCounts) TAGS\n\n\n")
         return set
     }
     
@@ -117,26 +77,10 @@ class CoreDataManager {
     func getAllUsersFromCD() -> [User] {
         var users = [User]()
         let fetchRequest: NSFetchRequest<CDUser> = CDUser.fetchRequest()
-        let fetchRequest2: NSFetchRequest<CDFriend> = CDFriend.fetchRequest()
-        let fetchReqeust3: NSFetchRequest<CDTag> = CDTag.fetchRequest()
         do {
             let cdUsers = try context.fetch(fetchRequest)
-            let cdFriends = try context.fetch(fetchRequest2)
-            let cdTags = try context.fetch(fetchReqeust3)
-            print("Usrs: \(cdUsers.count)")
-            print("Frnds: \(cdFriends.count)")
-            print("tag: \(cdTags.count)")
-//            print(cdFriends.count)
-            print(cdUsers)
+
             cdUsers.forEach { cdUser in
-                
-                cdUser.tags?.forEach { tag in
-                    print("\(tag)")
-                }
-                cdUser.friends?.forEach { friend in
-                    print("\(friend)")
-                }
-                
                 let tags = getTags(from: cdUser.tags)
                 let friends = getFriends(from: cdUser.friends)
                 
@@ -205,9 +149,6 @@ class CoreDataManager {
     
     
     func getCDUser(from user: User) -> CDUser{
-//        let setOfTags = getSetOfTags(tags: user.tags)
-//        let setOfFriends = getSetOfFriends(friends: user.friends)
-        
         let cdUser = CDUser(context: context)
         cdUser.id = user.id
         cdUser.isActive = user.isActive
@@ -237,23 +178,7 @@ class CoreDataManager {
                 cdUser.addToTags(cdTag)
             }
         }
-        
-//        cdUser.addToFriends(setOfFriends)
-//        cdUser.addToTags(setOfTags)
-        
-//        user.tags.forEach { tag in
-//            let cdTag = CDTag(context: context)
-//            cdTag.tag = tag
-//            cdUser.addToTags(cdTag)
-//        }
-        
-//        user.friends.forEach { friend in
-//            let cdFriend = getCDFriend(from: friend)
-//            cdUser.addToFriends(cdFriend)
-//        }
-//        cdUser.tags = setOfTags
-//        cdUser.friends = setOfFriends
-        
+       
         return cdUser
     }
     
@@ -274,6 +199,7 @@ class CoreDataManager {
     
     func getFriend(with id: UUID) -> CDFriend? {
         let fetchRequest: NSFetchRequest<CDFriend> = CDFriend.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "id = $id").withSubstitutionVariables(["id": id])
         do {
             let fetch = try context.fetch(fetchRequest)
             if let friend = fetch.first(where: {$0.id == id}) {
@@ -287,6 +213,7 @@ class CoreDataManager {
     
     func getTag(with tag: String) -> CDTag? {
         let fetchRequest: NSFetchRequest<CDTag> = CDTag.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "%K = %@", "tag", tag)
         do {
             let fetch = try context.fetch(fetchRequest)
             if let tag = fetch.first(where: {$0.tag == tag}) {
@@ -297,13 +224,5 @@ class CoreDataManager {
         }
         return nil
     }
-    
-//    func getCDTags(from tags: [String]) -> [CDTag] {
-//        var cdTags = [CDTag]()
-//        tags.forEach { tag in
-//            cdTags.append(cdTags)
-//        }
-//    }
-    
-//    func
+
 }
